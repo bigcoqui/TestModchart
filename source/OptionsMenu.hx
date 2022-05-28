@@ -56,6 +56,18 @@ class OptionsMenu extends MusicBeatState
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
+		
+		#if android
+		var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press C to Go In Android Controls Menu', 16);
+		tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		tipText.borderSize = 2;
+		tipText.scrollFactor.set();
+		add(tipText);
+		#end
+		
+		#if android
+		addVirtualPad(UP_DOWN, A_B_C);
+		#end
 
 		super.create();
 	}
@@ -68,6 +80,12 @@ class OptionsMenu extends MusicBeatState
 
 		if (controls.BACK && !isCat)
 			FlxG.switchState(new MainMenuState());
+			
+		#if android
+		if (_virtualpad.buttonC.justPressed) {
+			FlxG.switchState(new android.AndroidControlsMenu());
+		}
+		#end
 	}
 
 	var isSettingControl:Bool = false;
